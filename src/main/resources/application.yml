@@ -1,0 +1,27 @@
+server:
+  port: 10000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/crm?serverTimezone=Asia/Shanghai
+    username: root
+    password: rootroot
+
+
+
+
+##日志显示也完成了
+logging:
+  level:
+    com:
+      shangma:
+        cn: debug
+
+  file:
+    name: E:\\project.log
+
+##加载映射文件
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
