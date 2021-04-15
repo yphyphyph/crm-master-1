@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 辉哥
@@ -42,8 +42,6 @@ public class Brand extends BaseEntity {
      * 品牌官网
      */
     private String brandSite;
-
-
 
 
 }

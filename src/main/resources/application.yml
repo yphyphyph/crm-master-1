@@ -7,7 +7,9 @@ spring:
     url: jdbc:mysql://localhost:3306/crm?serverTimezone=Asia/Shanghai
     username: root
     password: rootroot
-
+#  mvc:
+#    format:
+#      date-time: yyyy-MM-dd HH:mm:ss
 
 
 

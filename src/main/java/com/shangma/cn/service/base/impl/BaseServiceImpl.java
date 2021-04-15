@@ -1,11 +1,14 @@
 package com.shangma.cn.service.base.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.shangma.cn.common.reflect.ReflectionUtils;
 import com.shangma.cn.mapper.base.MyMapper;
 import com.shangma.cn.service.base.BaseService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -41,11 +44,13 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 
     @Override
     public int save(T t) {
+        ReflectionUtils.invokeMethod(t, "setData", null, null);
         return myMapper.insert(t);
     }
 
     @Override
     public int update(T t) {
+        ReflectionUtils.invokeMethod(t, "setData", null, null);
         return myMapper.updateById(t);
     }
 
