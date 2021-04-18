@@ -2,7 +2,10 @@ package com.shangma.cn.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.shangma.cn.common.page.PageResult;
 import com.shangma.cn.domin.criteria.BrandCriteria;
 import com.shangma.cn.domin.entity.Brand;
 import com.shangma.cn.domin.vo.BrandVo;
@@ -36,7 +39,7 @@ public class BrandServiceImpl extends BaseServiceImpl<Brand> implements BrandSer
     private final BrandTransfer brandTransfer;
 
     @Override
-    public List<BrandVo> searchPage(BrandCriteria brandCriteria) {
+    public PageResult<BrandVo> searchPage(BrandCriteria brandCriteria) {
         //开启分页
         PageHelper.startPage(brandCriteria.getCurrentPage(), brandCriteria.getPageSize());
         LambdaQueryWrapper<Brand> lambda = new QueryWrapper<Brand>().lambda();
@@ -49,6 +52,15 @@ public class BrandServiceImpl extends BaseServiceImpl<Brand> implements BrandSer
             lambda.between(Brand::getCreateTime, startTime, endTime);
         }
         List<Brand> brands = brandMapper.selectList(lambda);
-        return brandTransfer.toVO(brands);
+
+        PageInfo<Brand>  pageInfo  = new PageInfo<>(brands);
+        return new PageResult<BrandVo>(pageInfo.getTotal(),brandTransfer.toVO(brands));
+
+    }
+
+    @Override
+    public BrandVo findById(Long id) {
+        Brand byId = getById(id);
+        return brandTransfer.toVO(byId);
     }
 }

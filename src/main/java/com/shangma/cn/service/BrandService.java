@@ -1,5 +1,7 @@
 package com.shangma.cn.service;
 
+import com.github.pagehelper.PageInfo;
+import com.shangma.cn.common.page.PageResult;
 import com.shangma.cn.domin.criteria.BrandCriteria;
 import com.shangma.cn.domin.entity.Brand;
 import com.shangma.cn.domin.vo.BrandVo;
@@ -20,5 +22,8 @@ public interface BrandService  extends BaseService<Brand> {
      * @param brandCriteria
      * @return
      */
-    List<BrandVo> searchPage(BrandCriteria brandCriteria);
+    PageResult<BrandVo> searchPage(BrandCriteria brandCriteria);
+
+
+    BrandVo findById(Long id);
 }

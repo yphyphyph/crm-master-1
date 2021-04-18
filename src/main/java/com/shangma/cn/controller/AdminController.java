@@ -45,8 +45,6 @@ public class AdminController extends BaseController {
         return  toAxios(adminService.save(Admin));
 
     }
-
-
     @PutMapping
     public AxiosResult<Void> update(@RequestBody Admin Admin) {
         return  toAxios(adminService.update(Admin));

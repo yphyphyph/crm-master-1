@@ -9,6 +9,7 @@ import com.shangma.cn.domin.criteria.BrandCriteria;
 import com.shangma.cn.domin.entity.Brand;
 import com.shangma.cn.domin.vo.BrandVo;
 import com.shangma.cn.service.BrandService;
+import com.shangma.cn.transfer.BrandTransfer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,18 +30,26 @@ public class BrandController extends BaseController {
 
     private final BrandService brandService;
 
+    private final BrandTransfer brandTransfer;
+
+
     @GetMapping
     public AxiosResult<PageResult<BrandVo>> list(BrandCriteria brandCriteria) {
-        System.out.println(brandCriteria);
-        List<BrandVo> list = brandService.searchPage(brandCriteria);
-        PageInfo<BrandVo> pageInfo = new PageInfo<>(list);
-        return AxiosResult.success(new PageResult<>(pageInfo.getTotal(), list));
+        return AxiosResult.success(brandService.searchPage(brandCriteria));
+    }
+
+
+    @GetMapping("findAll")
+    public AxiosResult<List<BrandVo>> findAll() {
+        List<Brand> list = brandService.list();
+        List<BrandVo> brandVos = brandTransfer.toVO(list);
+        return AxiosResult.success(brandVos);
     }
 
     @GetMapping("{id}")
-    public AxiosResult<Brand> findById(@PathVariable Long id) {
-        Brand byId = brandService.getById(id);
-        return AxiosResult.success(byId);
+    public AxiosResult<BrandVo> findById(@PathVariable Long id) {
+        BrandVo brandVo = brandService.findById(id);
+        return AxiosResult.success(brandVo);
     }
 
 

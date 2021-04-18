@@ -1,21 +1,27 @@
 package com.shangma.cn.controller;
 
 import com.shangma.cn.common.http.AxiosResult;
+import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.common.utils.TreeUtils;
 import com.shangma.cn.controller.base.BaseController;
+import com.shangma.cn.domin.criteria.DeptCriteria;
 import com.shangma.cn.domin.entity.Dept;
+import com.shangma.cn.domin.vo.DeptVo;
 import com.shangma.cn.service.DeptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发者：辉哥
  * 特点： 辉哥很帅
  * 开发时间：2021/4/14 16:56
  * 文件说明：
- *
  */
 @RestController
 @RequestMapping("dept")
@@ -23,36 +29,48 @@ import java.util.List;
 public class DeptController extends BaseController {
 
 
-    private final  DeptService deptService;
+    private final DeptService deptService;
 
 
     @GetMapping
-    public AxiosResult<List<Dept>> list() {
-        List<Dept> list = deptService.list();
-        return AxiosResult.success(list);
+    public AxiosResult<PageResult<DeptVo>> list(DeptCriteria deptCriteria) {
+        PageResult<DeptVo> pageResult = deptService.searchPage(deptCriteria);
+        return AxiosResult.success(pageResult);
     }
 
     @GetMapping("{id}")
-    public AxiosResult<Dept> findById(@PathVariable Long id) {
+    public AxiosResult<Map<String,Object>> findById(@PathVariable Long id) {
         Dept byId = deptService.getById(id);
-        return AxiosResult.success(byId);
+        List<DeptVo> parents = deptService.getSuperByParent(byId.getParentId(),new ArrayList<>());
+        //构建Tree
+        List<DeptVo> deptVos = TreeUtils.buildTree(parents);
+        Map<String,Object> map = new HashMap<>();
+        map.put("obj",byId);
+        map.put("elements",deptVos);
+        return AxiosResult.success(map);
     }
 
 
     @PostMapping
     public AxiosResult<Void> add(@RequestBody Dept Dept) {
-        return  toAxios(deptService.save(Dept));
-
+        return toAxios(deptService.save(Dept));
     }
-
 
     @PutMapping
     public AxiosResult<Void> update(@RequestBody Dept Dept) {
-        return  toAxios(deptService.update(Dept));
+        return toAxios(deptService.update(Dept));
     }
+
+
 
     @DeleteMapping("{id}")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
-        return  toAxios(deptService.deleteById(id));
+        return toAxios(deptService.deleteSelfAndChildren(id));
     }
+
+    @GetMapping("{id}/children")
+    public AxiosResult<List<DeptVo>> getChildrenById(@PathVariable long id){
+        return  AxiosResult.success(deptService.getChildrenById(id));
+    }
+
 }

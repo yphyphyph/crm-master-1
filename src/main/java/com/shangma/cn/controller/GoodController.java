@@ -1,8 +1,12 @@
 package com.shangma.cn.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.shangma.cn.common.http.AxiosResult;
+import com.shangma.cn.common.page.PageResult;
 import com.shangma.cn.controller.base.BaseController;
+import com.shangma.cn.domin.criteria.GoodCriteria;
 import com.shangma.cn.domin.entity.Good;
+import com.shangma.cn.domin.vo.GoodVO;
 import com.shangma.cn.service.GoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +30,9 @@ public class GoodController extends BaseController {
 
 
     @GetMapping
-    public AxiosResult<List<Good>> list() {
-        List<Good> list = goodService.list();
-        return AxiosResult.success(list);
+    public AxiosResult<PageResult<GoodVO>> searchPage(GoodCriteria goodCriteria) {
+        return AxiosResult.success(goodService.searchPage(goodCriteria));
+
     }
 
     @GetMapping("{id}")
@@ -36,12 +40,9 @@ public class GoodController extends BaseController {
         Good byId = goodService.getById(id);
         return AxiosResult.success(byId);
     }
-
-
     @PostMapping
     public AxiosResult<Void> add(@RequestBody Good Good) {
         return toAxios(goodService.save(Good));
-
     }
 
 
@@ -53,5 +54,11 @@ public class GoodController extends BaseController {
     @DeleteMapping("{id}")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(goodService.deleteById(id));
+    }
+
+
+    @DeleteMapping("batch/{ids}")
+    public AxiosResult<Void> batchDeleteByIds(@PathVariable List<Long> ids) {
+        return toAxios(goodService.batchDeleteByIds(ids));
     }
 }
