@@ -7,6 +7,7 @@ import com.shangma.cn.transfer.base.BaseTransfer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,12 @@ public class DeptTransfer extends BaseTransfer<Dept, DeptVo> {
             deptVo.setHasChildren(childrenCount > 0);
             deptVo.setIsLeaf(childrenCount <= 0);
         });
+        return deptVos;
+    }
+
+
+    public List<DeptVo> addChildrenProperties(List<Dept> list) {
+        List<DeptVo> deptVos = super.toVO(list);
         return deptVos;
     }
 }

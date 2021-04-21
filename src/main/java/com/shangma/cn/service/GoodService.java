@@ -2,12 +2,9 @@ package com.shangma.cn.service;
 
 import com.shangma.cn.common.page.PageResult;
 import com.shangma.cn.domin.criteria.GoodCriteria;
-import com.shangma.cn.domin.entity.Brand;
 import com.shangma.cn.domin.entity.Good;
-import com.shangma.cn.domin.vo.GoodVO;
+import com.shangma.cn.domin.vo.GoodVo;
 import com.shangma.cn.service.base.BaseService;
-
-import java.util.List;
 
 /**
  * 开发者：辉哥
@@ -16,5 +13,5 @@ import java.util.List;
  * 文件说明：
  */
 public interface GoodService extends BaseService<Good> {
-    PageResult<GoodVO> searchPage(GoodCriteria goodCriteria);
+    PageResult<GoodVo> searchPage(GoodCriteria goodCriteria);
 }

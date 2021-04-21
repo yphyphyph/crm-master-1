@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * 文件说明：
  */
 @Data
-public class GoodVO  extends BaseVo {
+public class GoodVo extends BaseVo {
 
     /**
      * 商品名称

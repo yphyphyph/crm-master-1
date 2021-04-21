@@ -20,6 +20,7 @@ public interface DeptService extends BaseService<Dept> {
 
     /**
      * 通过id找孩子
+     *
      * @param id
      * @return
      */
@@ -27,6 +28,7 @@ public interface DeptService extends BaseService<Dept> {
 
     /**
      * 分页条件查询
+     *
      * @param deptCriteria
      * @return
      */
@@ -35,16 +37,23 @@ public interface DeptService extends BaseService<Dept> {
 
     /**
      * 通过一个部门父id 找到同级以及上一级 上上一级...
+     *
      * @param parentId
      * @return
      */
-    public List<DeptVo> getSuperByParent(Long parentId,List<DeptVo> list);
+    public List<DeptVo> getSuperByParent(Long parentId, List<DeptVo> list);
 
 
     /**
      * 级联递归删除
+     *
      * @param id
      * @return
      */
     int deleteSelfAndChildren(Long id);
+
+    List<DeptVo> getDeptTree();
+
+
+    public List<DeptVo> getDeptVoTree(Long id, List<Dept> list);
 }

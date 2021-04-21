@@ -23,4 +23,5 @@ public class BaseQueryCriteria {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
+
 }

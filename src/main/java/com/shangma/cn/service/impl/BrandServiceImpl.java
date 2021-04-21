@@ -52,7 +52,6 @@ public class BrandServiceImpl extends BaseServiceImpl<Brand> implements BrandSer
             lambda.between(Brand::getCreateTime, startTime, endTime);
         }
         List<Brand> brands = brandMapper.selectList(lambda);
-
         PageInfo<Brand>  pageInfo  = new PageInfo<>(brands);
         return new PageResult<BrandVo>(pageInfo.getTotal(),brandTransfer.toVO(brands));
 

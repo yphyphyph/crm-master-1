@@ -19,7 +19,6 @@ public class DeptCriteria extends BaseQueryCriteria {
 
     /**
      * 判断是否是查询
-     *
      * @return
      */
     public boolean isQuery() {

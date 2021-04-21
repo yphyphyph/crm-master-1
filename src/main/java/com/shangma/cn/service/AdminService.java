@@ -1,7 +1,10 @@
 package com.shangma.cn.service;
 
+import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.domin.criteria.AdminCriteria;
 import com.shangma.cn.domin.entity.Admin;
 import com.shangma.cn.domin.entity.Dept;
+import com.shangma.cn.domin.vo.AdminVo;
 import com.shangma.cn.service.base.BaseService;
 
 /**
@@ -11,4 +14,32 @@ import com.shangma.cn.service.base.BaseService;
  * 文件说明：
  */
 public interface AdminService extends BaseService<Admin> {
+    /**
+     * 分页条件查询
+     * @param adminCriteria
+     * @return
+     */
+    PageResult<AdminVo> searchPage(AdminCriteria adminCriteria);
+
+    /**
+     * 保存员工和员工的角色
+     * @param admin
+     * @return
+     */
+    int saveAdminAndRoles(Admin admin);
+
+    /**
+     * 添加用户和用户的角色
+     * @param admin
+     * @return
+     */
+
+    Admin getAdminAndRoleIdsById(Long id);
+
+    /**
+     * 更新用户和用户的角色
+     * @param admin
+     * @return
+     */
+    int updateAdminAndRoles(Admin admin);
 }

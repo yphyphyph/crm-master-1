@@ -39,16 +39,19 @@ public class DeptController extends BaseController {
     }
 
     @GetMapping("{id}")
-    public AxiosResult<Map<String,Object>> findById(@PathVariable Long id) {
+    public AxiosResult<Map<String, Object>> findById(@PathVariable Long id) {
         Dept byId = deptService.getById(id);
-        List<DeptVo> parents = deptService.getSuperByParent(byId.getParentId(),new ArrayList<>());
+        List<DeptVo> parents = deptService.getSuperByParent(byId.getParentId(), new ArrayList<>());
         //构建Tree
         List<DeptVo> deptVos = TreeUtils.buildTree(parents);
-        Map<String,Object> map = new HashMap<>();
-        map.put("obj",byId);
-        map.put("elements",deptVos);
+        Map<String, Object> map = new HashMap<>();
+        map.put("obj", byId);
+        map.put("elements", deptVos);
         return AxiosResult.success(map);
     }
+
+
+
 
 
     @PostMapping
@@ -62,15 +65,35 @@ public class DeptController extends BaseController {
     }
 
 
-
     @DeleteMapping("{id}")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(deptService.deleteSelfAndChildren(id));
     }
 
     @GetMapping("{id}/children")
-    public AxiosResult<List<DeptVo>> getChildrenById(@PathVariable long id){
-        return  AxiosResult.success(deptService.getChildrenById(id));
+    public AxiosResult<List<DeptVo>> getChildrenById(@PathVariable long id) {
+        return AxiosResult.success(deptService.getChildrenById(id));
     }
+
+
+
+    @GetMapping("findParentByDeptId/{id}")
+    public AxiosResult<List<DeptVo>> findParentById(@PathVariable Long id) {
+        List<DeptVo> list = deptService.getDeptVoTree(id, new ArrayList<>());
+        List<DeptVo> deptVos = TreeUtils.buildTree(list);
+        return AxiosResult.success(deptVos);
+    }
+//    @GetMapping("tree")
+//    public AxiosResult<List<DeptVo>> getDeptTree() {
+//        List<DeptVo> list = deptService.getDeptTree();
+//        return AxiosResult.success(list);
+//    }
+//
+//
+//    @GetMapping("root")
+//    public AxiosResult<List<DeptVo>> getRootList() {
+//        List<DeptVo> list = deptService.getChildrenById(0L);
+//        return AxiosResult.success(list);
+//    }
 
 }

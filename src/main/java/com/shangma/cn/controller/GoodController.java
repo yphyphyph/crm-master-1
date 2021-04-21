@@ -1,15 +1,13 @@
 package com.shangma.cn.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.common.page.PageResult;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.domin.criteria.GoodCriteria;
 import com.shangma.cn.domin.entity.Good;
-import com.shangma.cn.domin.vo.GoodVO;
+import com.shangma.cn.domin.vo.GoodVo;
 import com.shangma.cn.service.GoodService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +28,7 @@ public class GoodController extends BaseController {
 
 
     @GetMapping
-    public AxiosResult<PageResult<GoodVO>> searchPage(GoodCriteria goodCriteria) {
+    public AxiosResult<PageResult<GoodVo>> searchPage(GoodCriteria goodCriteria) {
         return AxiosResult.success(goodService.searchPage(goodCriteria));
 
     }

@@ -1,5 +1,6 @@
 package com.shangma.cn.domin.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.shangma.cn.domin.vo.base.BaseVo;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * 文件说明：
  */
 @Data
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeptVo extends BaseVo {
 
     /**

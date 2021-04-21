@@ -6,19 +6,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shangma.cn.common.page.PageResult;
 import com.shangma.cn.domin.criteria.GoodCriteria;
-import com.shangma.cn.domin.entity.Dept;
 import com.shangma.cn.domin.entity.Good;
-import com.shangma.cn.domin.vo.CategoryVo;
-import com.shangma.cn.domin.vo.GoodVO;
+import com.shangma.cn.domin.vo.GoodVo;
 import com.shangma.cn.mapper.BrandMapper;
 import com.shangma.cn.mapper.GoodMapper;
 import com.shangma.cn.service.CategoryService;
-import com.shangma.cn.service.DeptService;
 import com.shangma.cn.service.GoodService;
 import com.shangma.cn.service.base.impl.BaseServiceImpl;
 import com.shangma.cn.transfer.GoodTransfer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -48,7 +44,7 @@ public class GoodServiceImpl extends BaseServiceImpl<Good> implements GoodServic
 
 
     @Override
-    public PageResult<GoodVO> searchPage(GoodCriteria goodCriteria) {
+    public PageResult<GoodVo> searchPage(GoodCriteria goodCriteria) {
         PageHelper.startPage(goodCriteria.getCurrentPage(), goodCriteria.getPageSize());
         LambdaQueryWrapper<Good> lambda = new QueryWrapper<Good>().lambda();
         if (!StringUtils.isEmpty(goodCriteria.getGoodName())) {
@@ -76,7 +72,7 @@ public class GoodServiceImpl extends BaseServiceImpl<Good> implements GoodServic
         //条件拼接
         List<Good> goods = goodMapper.selectList(lambda);
         PageInfo<Good> pageInfo = new PageInfo<>(goods);
-        List<GoodVO> list = goodTransfer.toVO(goods);
-        return new PageResult<GoodVO>(pageInfo.getTotal(),list);
+        List<GoodVo> list = goodTransfer.toVO(goods);
+        return new PageResult<GoodVo>(pageInfo.getTotal(),list);
     }
 }

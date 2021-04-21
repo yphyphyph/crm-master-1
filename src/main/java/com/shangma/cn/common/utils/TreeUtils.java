@@ -18,6 +18,9 @@ public class TreeUtils {
      * 通过父亲id=0  从一级开始往下排的方法
      *
      * @param list
+     *  [,4,5,6,7,8,9,10]  10次
+     *      1,2,3，   10    7次
+     *
      * @param <T>
      * @return
      */
@@ -31,7 +34,6 @@ public class TreeUtils {
         });
         return root;
     }
-
 
     public static <T> void getChildren(T t, List<T> list) {
         if (hasChildren(t, list)) {

@@ -6,6 +6,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.common.utils.TreeUtils;
 import com.shangma.cn.domin.criteria.DeptCriteria;
 import com.shangma.cn.domin.entity.Brand;
 import com.shangma.cn.domin.entity.Dept;
@@ -115,6 +116,19 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptServic
         return batchDeleteByIds(deleteIds);
     }
 
+
+    /**
+     * 获得所有的部门的Tree 
+     * @return
+     */
+    @Override
+    public List<DeptVo> getDeptTree() {
+        List<Dept> list = this.list();
+        List<DeptVo> deptVos = deptTransfer.addChildrenProperties(list);
+        List<DeptVo> deptVos1 = TreeUtils.buildTree(deptVos);
+        return deptVos1;
+    }
+
     /**
      * 递归封装要删除的孩子
      * @param ids
@@ -126,5 +140,22 @@ public class DeptServiceImpl extends BaseServiceImpl<Dept> implements DeptServic
             ids.add(item.getId());
             setChildrenId(ids, item.getId());
         });
+    }
+
+
+
+    @Override
+    public List<DeptVo> getDeptVoTree(Long id, List<Dept> list) {
+        Dept dept = getById(id);
+        Long parentId = dept.getParentId();
+        List<Dept> depts = deptMapper.selectList(new QueryWrapper<Dept>().lambda().eq(Dept::getParentId, parentId));
+        list.addAll(depts);
+        if (parentId == 0) {
+            return deptTransfer.toVO(list);
+        } else {
+            return getDeptVoTree(parentId, list);
+        }
+
+
     }
 }
