@@ -7,8 +7,13 @@ import com.shangma.cn.common.page.PageResult;
 import com.shangma.cn.common.utils.TreeUtils;
 import com.shangma.cn.domin.criteria.MenuCriteria;
 import com.shangma.cn.domin.entity.Admin;
+import com.shangma.cn.domin.entity.AdminRole;
 import com.shangma.cn.domin.entity.Menu;
+import com.shangma.cn.domin.entity.RoleMenu;
 import com.shangma.cn.domin.vo.MenuVo;
+import com.shangma.cn.mapper.AdminRoleMapper;
+import com.shangma.cn.mapper.MenuMapper;
+import com.shangma.cn.mapper.RoleMenuMapper;
 import com.shangma.cn.service.MenuService;
 import com.shangma.cn.service.base.impl.BaseServiceImpl;
 import com.shangma.cn.transfer.MenuTransfer;
@@ -34,6 +39,15 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements MenuServic
 
     private final MenuTransfer menuTransfer;
 
+    private final AdminRoleMapper adminRoleMapper;
+
+
+    private final RoleMenuMapper roleMenuMapper;
+
+
+    private final MenuMapper menuMapper;
+
+
     @Override
     public PageResult<MenuVo> getMenuTree(MenuCriteria menuCriteria) {
         PageHelper.startPage(menuCriteria.getCurrentPage(), menuCriteria.getPageSize());
@@ -54,8 +68,16 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu> implements MenuServic
         list.removeAll(root);
         List<MenuVo> menuVos = menuTransfer.toVO(list);
         List<MenuVo> rootVo = menuTransfer.toVO(root);
-        rootVo.forEach(item->getChildren(item,menuVos));
+        rootVo.forEach(item -> getChildren(item, menuVos));
         return rootVo;
+    }
+
+    @Override
+    public List<Menu> getMenusByAdminId(Long adminId) {
+        List<Long> roleIds = adminRoleMapper.selectList(new QueryWrapper<AdminRole>().lambda().eq(AdminRole::getAdminId, adminId)).stream().map(AdminRole::getRoleId).collect(Collectors.toList());
+        Set<Long> menuIds = roleMenuMapper.selectList(new QueryWrapper<RoleMenu>().lambda().in(RoleMenu::getRoleId, roleIds)).stream().map(RoleMenu::getMenuId).collect(Collectors.toSet());
+        List<Menu> menus = menuMapper.selectBatchIds(menuIds);
+        return menus;
     }
 
 

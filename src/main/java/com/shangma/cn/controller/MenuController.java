@@ -2,6 +2,7 @@ package com.shangma.cn.controller;
 
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.common.perm.HasPerm;
 import com.shangma.cn.common.utils.TreeUtils;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.domin.criteria.BrandCriteria;
@@ -67,6 +68,7 @@ public class MenuController extends BaseController {
      */
 
     @PostMapping
+    @HasPerm(perm = "menu:add")
     public AxiosResult<Void> add(@RequestBody Menu menu) {
         System.out.println(menu);
         return toAxios(menuService.save(menu));
@@ -78,6 +80,7 @@ public class MenuController extends BaseController {
      */
 
     @PutMapping
+    @HasPerm(perm = "menu:edit")
     public AxiosResult<Void> update(@RequestBody Menu menu) {
         return toAxios(menuService.update(menu));
     }
@@ -90,6 +93,7 @@ public class MenuController extends BaseController {
 
 
     @DeleteMapping("{id}")
+    @HasPerm(perm = "dept:delete")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(menuService.deleteById(id));
     }

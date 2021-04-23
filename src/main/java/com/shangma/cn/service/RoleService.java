@@ -7,6 +7,7 @@ import com.shangma.cn.domin.vo.RoleVo;
 import com.shangma.cn.service.base.BaseService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发者：辉哥
@@ -20,6 +21,20 @@ public interface RoleService extends BaseService<Role> {
     RoleVo findById(Long id);
 
 
+    /**
+     * 给角色赋予权限
+     *
+     * @param roleId
+     * @param menuIds
+     * @return
+     */
+    int setRoleMenu(Long roleId, List<Long> menuIds);
+
+    /**
+     * 获取角色的权限（不全的） 只用于前端展示而已
+     */
+
+    List<Long> getRoleTreeMenuForShow(Long roleId);
 
 
 }

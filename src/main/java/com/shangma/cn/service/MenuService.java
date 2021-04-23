@@ -7,6 +7,7 @@ import com.shangma.cn.domin.vo.MenuVo;
 import com.shangma.cn.service.base.BaseService;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 开发者：辉哥
@@ -18,9 +19,15 @@ public interface MenuService extends BaseService<Menu> {
 
     /**
      * 获得所有的菜单通过树型展示
+     *
      * @return
      */
     PageResult<MenuVo> getMenuTree(MenuCriteria menuCriteria);
 
     List<MenuVo> getAllMenuTree();
+
+
+    List<Menu> getMenusByAdminId(Long adminId);
+
+
 }

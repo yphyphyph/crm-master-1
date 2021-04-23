@@ -2,6 +2,7 @@ package com.shangma.cn.controller;
 
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.common.perm.HasPerm;
 import com.shangma.cn.common.utils.TreeUtils;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.domin.criteria.DeptCriteria;
@@ -55,17 +56,20 @@ public class DeptController extends BaseController {
 
 
     @PostMapping
+    @HasPerm(perm = "dept:add")
     public AxiosResult<Void> add(@RequestBody Dept Dept) {
         return toAxios(deptService.save(Dept));
     }
 
     @PutMapping
+    @HasPerm(perm = "dept:edit")
     public AxiosResult<Void> update(@RequestBody Dept Dept) {
         return toAxios(deptService.update(Dept));
     }
 
 
     @DeleteMapping("{id}")
+    @HasPerm(perm = "dept:delete")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(deptService.deleteSelfAndChildren(id));
     }

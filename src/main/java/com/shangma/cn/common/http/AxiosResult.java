@@ -45,6 +45,12 @@ public class AxiosResult<T> {
     }
 
 
+    public static <T> AxiosResult<T> error(EnumStatus enumStatus ,T data) {
+        return getAxiosResult(enumStatus, data);
+    }
+
+
+
     private static <T> AxiosResult<T> getAxiosResult(EnumStatus enumStatus, T data) {
         return new AxiosResult<T>(enumStatus, data);
     }

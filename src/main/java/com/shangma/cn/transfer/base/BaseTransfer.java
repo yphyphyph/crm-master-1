@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 

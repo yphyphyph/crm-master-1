@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.common.perm.HasPerm;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.domin.criteria.BrandCriteria;
 import com.shangma.cn.domin.entity.Brand;
@@ -54,23 +55,28 @@ public class BrandController extends BaseController {
 
 
     @PostMapping
+    @HasPerm(perm = "brand:add")
     public AxiosResult<Void> add(@RequestBody Brand brand) {
+
         return toAxios(brandService.save(brand));
 
     }
 
 
     @PutMapping
+    @HasPerm(perm = "brand:edit")
     public AxiosResult<Void> update(@RequestBody Brand brand) {
         return toAxios(brandService.update(brand));
     }
 
     @DeleteMapping("{id}")
+    @HasPerm(perm = "brand:delete")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(brandService.deleteById(id));
     }
 
     @DeleteMapping("batch/{ids}")
+    @HasPerm(perm = "brand:batch")
     public AxiosResult<Void> batchDelete(@PathVariable List<Long> ids) {
         return toAxios(brandService.batchDeleteByIds(ids));
     }

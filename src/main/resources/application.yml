@@ -7,10 +7,22 @@ spring:
     url: jdbc:mysql://localhost:3306/crm?serverTimezone=Asia/Shanghai
     username: root
     password: rootroot
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 400MB
+  task:
+    execution:
+      pool:
+        core-size: 50
+  mail:
+    host: smtp.163.com
+    username: zhengzhoudaxuevip@163.com
+    password: IUWVVFKADCVZKGEJ
 #  mvc:
 #    format:
 #      date-time: yyyy-MM-dd HH:mm:ss
-
+# // 格式显示  ， 必须的是个图片   图片的大小不能超过多少K   图片黄色
 
 
 ##日志显示也完成了
@@ -26,4 +38,7 @@ logging:
 ##加载映射文件
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+
+
 

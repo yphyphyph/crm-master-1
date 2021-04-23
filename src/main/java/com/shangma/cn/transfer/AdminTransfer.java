@@ -23,6 +23,7 @@ public class AdminTransfer extends BaseTransfer<Admin, AdminVo> {
     private final  DeptMapper deptMapper;
 
     public List<AdminVo> setSex(List<Admin> list) {
+
         List<AdminVo> adminVos = super.toVO(list);
         for (int i = 0; i < adminVos.size(); i++) {
             Admin admin = list.get(i);

@@ -2,6 +2,7 @@ package com.shangma.cn.controller;
 
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.common.perm.HasPerm;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.domin.criteria.GoodCriteria;
 import com.shangma.cn.domin.entity.Good;
@@ -39,23 +40,27 @@ public class GoodController extends BaseController {
         return AxiosResult.success(byId);
     }
     @PostMapping
+    @HasPerm(perm = "good:add")
     public AxiosResult<Void> add(@RequestBody Good Good) {
         return toAxios(goodService.save(Good));
     }
 
 
     @PutMapping
+    @HasPerm(perm = "good:edit")
     public AxiosResult<Void> update(@RequestBody Good Good) {
         return toAxios(goodService.update(Good));
     }
 
     @DeleteMapping("{id}")
+    @HasPerm(perm = "good:delete")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(goodService.deleteById(id));
     }
 
 
     @DeleteMapping("batch/{ids}")
+    @HasPerm(perm = "good:batch")
     public AxiosResult<Void> batchDeleteByIds(@PathVariable List<Long> ids) {
         return toAxios(goodService.batchDeleteByIds(ids));
     }

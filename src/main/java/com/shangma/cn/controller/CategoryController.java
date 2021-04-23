@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.common.perm.HasPerm;
 import com.shangma.cn.common.utils.TreeUtils;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.domin.criteria.CategoryCriteria;
@@ -73,6 +74,7 @@ public class CategoryController extends BaseController {
      * 添加功能
      */
     @PostMapping
+    @HasPerm(perm = "category:add")
     public AxiosResult<Void> addEntity(@RequestBody Category category) {
         return toAxios(categoryService.save(category));
     }
@@ -82,6 +84,7 @@ public class CategoryController extends BaseController {
      * 修改功能
      */
     @PutMapping
+    @HasPerm(perm = "category:edit")
     public AxiosResult<Void> updateEntity(@RequestBody Category category) {
         return toAxios(categoryService.update(category));
     }
@@ -90,6 +93,7 @@ public class CategoryController extends BaseController {
      * 删除
      */
     @DeleteMapping("cascade/{id}/{level}")
+    @HasPerm(perm = "category:delete")
     public AxiosResult<Void> cascadeDelete(@PathVariable long id, @PathVariable int level) {
         return toAxios(categoryService.cascadeDelete(id, level));
     }

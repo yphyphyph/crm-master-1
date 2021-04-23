@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shangma.cn.common.http.AxiosResult;
 import com.shangma.cn.common.page.PageResult;
+import com.shangma.cn.common.perm.HasPerm;
 import com.shangma.cn.controller.base.BaseController;
 import com.shangma.cn.domin.criteria.RoleCriteria;
 import com.shangma.cn.domin.entity.Role;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开发者：辉哥
@@ -55,6 +57,7 @@ public class RoleController extends BaseController {
 
 
     @PostMapping
+    @HasPerm(perm = "role:add")
     public AxiosResult<Void> add(@RequestBody Role role) {
         return toAxios(roleService.save(role));
 
@@ -62,17 +65,40 @@ public class RoleController extends BaseController {
 
 
     @PutMapping
+    @HasPerm(perm = "role:edit")
     public AxiosResult<Void> update(@RequestBody Role role) {
         return toAxios(roleService.update(role));
     }
 
     @DeleteMapping("{id}")
+    @HasPerm(perm = "role:delete")
     public AxiosResult<Void> deleteById(@PathVariable Long id) {
         return toAxios(roleService.deleteById(id));
     }
 
     @DeleteMapping("batch/{ids}")
+    @HasPerm(perm = "role:batch")
     public AxiosResult<Void> batchDelete(@PathVariable List<Long> ids) {
         return toAxios(roleService.batchDeleteByIds(ids));
+    }
+
+    /**
+     * 给用户赋予权限
+     */
+
+    @PutMapping("{roleId}/menu")
+    public AxiosResult<Void> setRoleMenu(@PathVariable Long roleId, @RequestBody List<Long> menuIds) {
+        int row = roleService.setRoleMenu(roleId, menuIds);
+        return toAxios(row);
+    }
+
+    /**
+     * 获取角色的权限（不全的） 只用于前端展示而已
+     */
+
+    @GetMapping("{roleId}/treeMenu")
+    public AxiosResult<List<Long>> getRoleTreeMenuForShow(@PathVariable Long roleId) {
+        List<Long> list = roleService.getRoleTreeMenuForShow(roleId);
+        return AxiosResult.success(list);
     }
 }
